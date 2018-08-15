@@ -1,46 +1,54 @@
-$(document).ready(function(){
-src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
-type="text/javascript"
-
-var displayedButtons = 
+$(document).ready(function () {
+    console.log("function");
 
 
-// Adding click event listen listener to all buttons
-$("button").on("click", function() {
-    // Grabbing and storing the data-animal property value from the button
-    var animal = $(this).attr("data-animal");
+    var buttonValues = ["dog", "cat", "bird", "skunk"];
 
-    // Constructing a queryURL using the animal name
-    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-      animal + "&api_key=dc6zaTOxFJmzC&limit=10";
+    for (var i = 0; i < buttonValues.length; i++) {
+        var button = $("<button class='button'>");
+        button.text(buttonValues[i]);
+        $("#buttons").append(button);
+    }
+    // Adding click event listen listener to all buttons
+    $("button").on("click", function () {
+        // console.log("button");
+        // Grabbing and storing the data-animal property value from the button
+        var animal = $(this).attr("data-animal");
 
-    // Performing an AJAX request with the queryURL
-    
-    $.ajax({
-        url: queryURL, 
-        method: "GET"
-    }).done(function(response) {
+        // Constructing a queryURL using the animal name
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+            animal + "&api_key=Q0YHyAA9kv7Erm4pP1Af0tmINJ88qNnf&limit=10";
 
-        for(var j = 0; j < limit; j++) {    
+        // Performing an AJAX request with the queryURL
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).done(function (response) {
+            for (var i = 0; i < response.data.length; i++) {
+                console.log(response.data[i].images.original.url);
 
-            var displayDiv = $("<div>");
-            displayDiv.addClass("holder");
-        
-            var image = $("<img>");
-            image.attr("src", response.data[j].images.original_still.url);
-            image.attr("data-still", response.data[j].images.original_still.url);
-            image.attr("data-animate", response.data[j].images.original.url);
-            image.attr("data-state", "still");
-            image.attr("class", "gif");
-            displayDiv.append(image);
 
-            var rating = response.data[j].rating;
-            console.log(response);
-            var pRating = $("<p>").text("Rating: " + rating);
-            displayDiv.append(pRating)
 
-            $("#display-images").append(displayDiv);
-        }
+                var displayDiv = $("<div>");
+                displayDiv.addClass("holder");
+                // for making the images still and responsive
+                var image = $("<img>");
+                image.attr("src", response.data[i].images.original_still.url);
+                image.attr("data-still", response.data[i].images.original_still.url);
+                image.attr("data-animate", response.data[i].images.original.url);
+                image.attr("data-state", "still");
+                image.attr("class", "gif");
+                displayDiv.append(image);
+
+                var rating = response.data[i].rating;
+                console.log(response);
+                var pRating = $("<p>").text("Rating: " + rating);
+                displayDiv.append(pRating)
+
+                $("#display-images").append(displayDiv);
+            }
+        })
     });
-})
-})
+});
+
+
