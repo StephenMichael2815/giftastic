@@ -39,12 +39,12 @@ $(document).ready(function () {
                 image.attr("data-state", "still");
                 image.attr("class", "gif");
                 displayDiv.append(image);
-
+                // grabbingm the rating and appending it onto the image
                 var rating = response.data[i].rating;
                 console.log(response);
                 var pRating = $("<p>").text("Rating: " + rating);
                 displayDiv.append(pRating)
-
+                // grabbing the display images and putting it on the page
                 $("#display-images").append(displayDiv);
             }
         })
